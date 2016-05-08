@@ -1,0 +1,51 @@
+{% extends '../layout.html' %}
+
+{% block title %}财务统计{% endblock %}
+
+{% block style %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+  <h1>财务统计</h1>
+  <button type="button" class="btn btn-default" onclick="window.location.href='/income/edit'">新 增</button>
+  </p>
+
+  <table class="table table-striped">
+   <caption>收入详情（共 <strong>{{posts.length}}</strong> 条，共 <strong>{{ incomeTotal || 0 }}</strong> 元）</caption>
+   <thead>
+      <tr>
+         <th>月份</th>
+         <th>尊号</th>
+         <th>工资</th>
+         <th>公积金</th>
+         <th>饭补</th>
+         <th>过节费</th>
+         <th>理财</th>
+         <th>其它</th>
+         <th>备注</th>
+         <th>合计</th>
+         <th>操作</th>
+      </tr>
+   </thead>
+   <tbody>
+    {% for post in posts %}
+      <tr>
+         <td>{{post.time.toString()}}</td>
+         <td>{{post.type}}
+         <td>{{post.salary}}</td>
+         <td>{{post.accumulationFund}}</td>
+         <td>{{post.mealAllowance}}</td>
+         <td>{{post.holidayCosts}}</td>
+         <td>{{post.liCai}}</td>
+         <td>{{post.other}}</td>
+         <td>{{post.remark}}</td>
+         <td>{{post.total}}</td>
+         <td><a href="/income/{{post._id.toString()}}/edit">编辑</a> | <a href="/income/{{post._id.toString()}}/delete">删除</a></td>
+      </tr>
+      {% endfor %}
+   </tbody>
+</table>
+{% endblock %}

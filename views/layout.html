@@ -1,0 +1,37 @@
+<html>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="/style/bootstrap.min.css" >
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="/style/bootstrap-theme.min.css">
+
+  <link href="/style/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+
+  <style>
+    #content{
+      width:1024px;
+      height:auto;
+      padding: 0px;
+      margin: auto;
+    }
+  </style>
+    {% block style %}{% endblock %}
+
+</head>
+<body>
+  <section id="content">
+    {% block content %}
+      <p>Missing content!</p>
+    {% endblock %}
+  </section>
+  <script type="text/javascript" src="/script/jquery-1.8.3.min.js" charset="UTF-8"></script>
+
+  <script src="/script/bootstrap.min.js" ></script>
+
+  <script type="text/javascript" src="/script/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+  <script type="text/javascript" src="/script/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>  
+  {% block script %}{% endblock %}
+</body>
+</html>

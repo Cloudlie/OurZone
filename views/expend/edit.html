@@ -1,0 +1,18 @@
+{% extends '../layout.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+  <h1>编辑</h1>
+  <form action="/post/{{post._id.toString()}}" method="post">
+  	<p>时间：<input type="text" name="time"></p>
+    <p>房贷：<input type="text" name="mortgage" value="{{post.mortgage}}"></p>
+    <p>信用卡：<input type="text" name="creditCard" value="{{post.creditCard}}"></p>
+    <p>花呗：<input type="text" name="huaBai" value="{{post.huaBai}}"></p>
+    <p>装修：<input type="text" name="fitment" value="{{post.fitment}}"></p>
+    <p>房租：<input type="text" name="rent" value="{{post.rent}}"></p>
+    <p>其它：<input type="text" name="other" value="{{post.other}}"></p>
+    <p>备注：<textarea name="remark">{{post.remark}}</textarea></p>
+    <p><input type="submit" value="Save"></p>
+  </form>
+{% endblock %}

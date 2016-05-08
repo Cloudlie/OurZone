@@ -1,0 +1,33 @@
+{
+  "name": "OurZone",
+  "description": "tittle tool",
+  "version": "0.0.1",
+  "repository": "https://github.com/Cloudlie/OurZone",
+  "bugs": "https://github.com/Cloudlie/OurZone/issues",
+  "dependencies": {
+    "koa-static": "latest",
+    "co": "^4.5.4",
+    "co-body": "^2.0.0",
+    "co-monk": "^1.0.0",
+    "co-views": "^1.0.0",
+    "koa": "^0.21.0",
+    "koa-logger": "^1.2.2",
+    "koa-route": "^2.4.2",
+    "mongodb": "^1.4.4",
+    "monk": "^1.0.1",
+    "swig": "^1.4.2"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.5",
+    "should": "^7.0.1",
+    "supertest": "^1.0.1"
+  },
+  "scripts": {
+    "test": "",
+    "start": "node --harmony index.js"
+  },
+  "engines": {
+    "node": "5.4.1"
+  },
+  "license": "MIT"
+}

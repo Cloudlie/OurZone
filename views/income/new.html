@@ -1,0 +1,97 @@
+{% extends '../layout.html' %}
+
+{% block title %}New Post{% endblock %}
+
+{% block content %}
+  <h1>新增</h1>
+  <p>新增一条收入信息</p>
+  <form action="/post" method="post">
+  	<p><select name="type">
+  		<option value="0">cc</option>
+  		<option value="1">cloudlie</option>
+  	</select>
+    <p><input type="text" placeholder="Title" name="title"></p>
+    <p><textarea placeholder="Contents" name="body"></textarea></p>
+    <p><input type="submit" value="新增"></p>
+  </form>
+{% endblock %}
+
+{% extends '../layout.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+  <h3>编辑收入信息</h3>
+
+<form class="form-horizontal" role="form" action="/post/{{post._id.toString()}}" method="post">
+   <div class="form-group">
+      <label for="firstname" class="col-sm-1 control-label"></label>
+      <div class="col-sm-11">
+         <select class="form-control" name="type">
+        <option>----请选择----</option>
+        {% for type in types %}
+                  {% if post.type == type.id %}
+                    <option value="{{ type.id }}" selected="selected">{{ type.name }}</option>
+                  {% else %}
+                    <option value="{{ type.id }}">{{ type.name }}</option>
+                  {% endif %}
+            {% endfor %}
+      </select>
+      </div>
+   </div>
+   <div class="form-group">
+      <label for="time" class="col-sm-1 control-label">时间</label>
+      <div class="col-sm-11">
+            <input type="text" class="form-control" id="time" name="time" value="{{post.time}}" placeholder="请输入时间">
+      </div>
+   </div>
+ <div class="form-group">
+      <label for="salary" class="col-sm-1 control-label">工资</label>
+      <div class="col-sm-11">
+            <input type="text" class="form-control" id="salary" name="salary" value="{{post.salary}}" placeholder="请输入工资">
+      </div>
+   </div>
+   <div class="form-group">
+      <label for="accumulationFund" class="col-sm-1 control-label">公积金</label>
+      <div class="col-sm-11">
+            <input type="text" class="form-control" id="accumulationFund" name="accumulationFund" value="{{post.accumulationFund}}" placeholder="请输入公积金">
+      </div>
+   </div> 
+   <div class="form-group">
+      <label for="mealAllowance" class="col-sm-1 control-label">饭补</label>
+      <div class="col-sm-11">
+            <input type="text" class="form-control" id="mealAllowance" name="mealAllowance" value="{{post.mealAllowance}}" placeholder="请输入饭补">
+      </div>
+   </div>
+   <div class="form-group">
+      <label for="holidayCosts" class="col-sm-1 control-label">过节费</label>
+      <div class="col-sm-11">         
+            <input type="text" class="form-control" id="holidayCosts" name="holidayCosts" value="{{post.holidayCosts}}" placeholder="请输入过节费">
+      </div>
+   </div> 
+   <div class="form-group">
+      <label for="liCai" class="col-sm-1 control-label">理财</label>
+      <div class="col-sm-11">
+                     <input type="text" class="form-control" id="liCai" name="liCai" value="{{post.liCai}}" placeholder="请输入理财收入">
+      </div>
+   </div>
+   <div class="form-group">
+      <label for="other" class="col-sm-1 control-label">其它</label>
+      <div class="col-sm-11">
+            <input type="text" class="form-control" id="other" name="other" value="{{post.other}}" placeholder="请输入其它收入">
+      </div>
+   </div>  
+   <div class="form-group">
+      <label for="remark" class="col-sm-1 control-label">备注</label>
+      <div class="col-sm-11">
+            <textarea class="form-control" rows="3" name="remark" id="remark" placeholder="请输入备注信息">{{post.remark}}</textarea>
+      </div>
+   </div>
+   <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-11">
+         <button type="submit" class="btn btn-default">保存</button>
+      </div>
+   </div>
+</form>
+
+{% endblock %}

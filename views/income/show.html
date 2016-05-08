@@ -1,0 +1,12 @@
+{% extends '../layout.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+  <h1>{{ post.title }}</h1>
+  <p>{{ post.body }}</p>
+  <ul>
+  	<li><a href="/income/{{ post._id.toString() }}/edit">编辑</a></li>
+  	<li><a href="/income/{{ post._id.toString() }}/delete">删除</a></li>
+  </ul>
+{% endblock %}

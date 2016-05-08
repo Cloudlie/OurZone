@@ -1,0 +1,98 @@
+{% extends '../layout.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $('.form_datetime').datetimepicker({
+            //language:  'fr',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1,
+            minView:5
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+  <h3>编辑收入信息</h3>
+
+<form class="form-horizontal" role="form" action="/income/{{post._id.toString()}}" method="post">
+   <div class="form-group">
+      <label for="firstname" class="col-sm-1 control-label"></label>
+      <div class="col-sm-11">
+         <select class="form-control" name="type">
+        <option>----请选择----</option>
+        {% for type in types %}
+                  {% if post.type == type.id %}
+                    <option value="{{ type.id }}" selected="selected">{{ type.name }}</option>
+                  {% else %}
+                    <option value="{{ type.id }}">{{ type.name }}</option>
+                  {% endif %}
+            {% endfor %}
+      </select>
+      </div>
+   </div>
+   <div class="form-group">
+      <label for="time" class="col-sm-1 control-label">时间</label>
+        <div class="input-group date form_datetime col-sm-11" data-date="" data-date-format="yyyy-mm-dd" data-link-field="time">
+            <input type="text" class="form-control"  name="time" value="{{post.time}}" placeholder="请输入时间" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+          <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+        <input type="hidden" id="time" value="" /><br/>
+   </div>
+ <div class="form-group">
+      <label for="salary" class="col-sm-1 control-label">工资</label>
+      <div class="col-sm-11">
+            <input type="text" class="form-control" id="salary" name="salary" value="{{post.salary || 10173.75}}" placeholder="请输入工资">
+      </div>
+   </div>
+   <div class="form-group">
+      <label for="accumulationFund" class="col-sm-1 control-label">公积金</label>
+      <div class="col-sm-11">
+            <input type="text" class="form-control" id="accumulationFund" name="accumulationFund" value="{{post.accumulationFund || 2650}}" placeholder="请输入公积金">
+      </div>
+   </div> 
+   <div class="form-group">
+      <label for="mealAllowance" class="col-sm-1 control-label">饭补</label>
+      <div class="col-sm-11">
+            <input type="text" class="form-control" id="mealAllowance" name="mealAllowance" value="{{post.mealAllowance || 550}}" placeholder="请输入饭补">
+      </div>
+   </div>
+   <div class="form-group">
+      <label for="holidayCosts" class="col-sm-1 control-label">过节费</label>
+      <div class="col-sm-11">         
+            <input type="text" class="form-control" id="holidayCosts" name="holidayCosts" value="{{post.holidayCosts || 0}}" placeholder="请输入过节费">
+      </div>
+   </div> 
+   <div class="form-group">
+      <label for="liCai" class="col-sm-1 control-label">理财</label>
+      <div class="col-sm-11">
+                     <input type="text" class="form-control" id="liCai" name="liCai" value="{{post.liCai || 0}}" placeholder="请输入理财收入">
+      </div>
+   </div>
+   <div class="form-group">
+      <label for="other" class="col-sm-1 control-label">其它</label>
+      <div class="col-sm-11">
+            <input type="text" class="form-control" id="other" name="other" value="{{post.other || 0}}" placeholder="请输入其它收入">
+      </div>
+   </div>  
+   <div class="form-group">
+      <label for="remark" class="col-sm-1 control-label">备注</label>
+      <div class="col-sm-11">
+            <textarea class="form-control" rows="3" name="remark" id="remark" placeholder="请输入备注信息">{{post.remark || "无"}}</textarea>
+      </div>
+   </div>
+   <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-11">
+         <button type="submit" class="btn btn-default">保存</button>
+      </div>
+   </div>
+</form>
+
+{% endblock %}
