@@ -22,6 +22,7 @@
 </head>
 <body>
   <section id="content">
+    {% include 'nav.html' %}
     {% block content %}
       <p>Missing content!</p>
     {% endblock %}
@@ -32,6 +33,25 @@
 
   <script type="text/javascript" src="/script/bootstrap-datetimepicker.js" charset="UTF-8"></script>
   <script type="text/javascript" src="/script/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>  
+  <script>
+      $(function(){
+        initNav();
+
+        $("ul.nav li").die("click").live("click",function(){
+            $(this).addClass("active").siblings().removeClass("active");
+            console.log("true");
+        });
+      });
+
+      function initNav(){
+        var href = window.location.href.toLocaleLowerCase();
+        $("ul.nav li").each(function(index,item){
+          if(href.indexOf($(this).text().toLocaleLowerCase()) > -1){
+            $(this).addClass("active").siblings().removeClass("active");            
+          }
+        })
+      }
+  </script>
   {% block script %}{% endblock %}
 </body>
 </html>

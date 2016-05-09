@@ -7,7 +7,7 @@ var render = require('./lib/render');
 // Set up monk
 var monk = require('monk');
 var wrap = require('co-monk');
-var db = monk('localhost:27017/koaBlog');
+var db = monk('localhost:27017/ourZone');
 
 // Wrap monk in generator goodness
 var posts = wrap(db.get('posts'));
@@ -30,13 +30,13 @@ module.exports.index = function* index() {
 module.exports.list = function* list() {
   var postList = yield posts.find({});
   for (var i = postList.length - 1; i >= 0; i--) {
-    postList[i].type=parseInt(postList[i].type,10)===0?"orange":"cloudlie";
-    postList[i].total = parseFloat(postList[i].salary) 
-    + parseFloat(postList[i].accumulationFund) 
-    + parseFloat(postList[i].mealAllowance) 
-    + parseFloat(postList[i].holidayCosts) 
-    + parseFloat(postList[i].liCai) 
-    + parseFloat(postList[i].other);
+    postList[i].type = parseInt(postList[i].type, 10) === 0 ? "orange" : "cloudlie";
+    postList[i].total = parseFloat(postList[i].salary) +
+      parseFloat(postList[i].accumulationFund) +
+      parseFloat(postList[i].mealAllowance) +
+      parseFloat(postList[i].holidayCosts) +
+      parseFloat(postList[i].liCai) +
+      parseFloat(postList[i].other);
   };
 
   this.body = yield render('income/list', {
@@ -87,19 +87,37 @@ module.exports.edit = function* edit(id) {
     name: "cloudlie"
   }];
 
-console.log(typeof id)
+  var defaultValue = {
+    salary: 6000,
+    accumulationFund: 720,
+    mealAllowance: 400,
+    holidayCosts: 200,
+    liCai: 0,
+    other: 0
+  }
+
+  console.log(defaultValue);
+  console.log(typeof id)
   if (typeof id === "string") {
+
+    console.log(0);
     var post = yield posts.findOne({
       _id: id
     });
     this.body = yield render('income/edit', {
       types: types,
-      post: post
+      post: post,
+      defaultValue: defaultValue
     });
+
   } else {
-    this.body = yield render('income/new', {
-      types: types
+
+    console.log(1);
+    this.body = yield render('income/edit', {
+      types: types,
+      defaultValue: defaultValue
     });
+
   }
 
 
