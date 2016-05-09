@@ -15,6 +15,7 @@
     "koa-route": "^2.4.2",
     "mongodb": "^1.4.4",
     "monk": "^1.0.1",
+    "koa-jsonp": "latest",
     "swig": "^1.4.2"
   },
   "devDependencies": {

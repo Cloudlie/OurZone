@@ -3,10 +3,17 @@
 {% block title %}{% endblock %}
 
 {% block content %}
-<div class="main">
-	<div style="float: left; width:200"></div>
-	<div style="float:right;" id='canvasDiv'></div>
-<div>
+
+<div class="container">
+   <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-11">
+      	<div style="float:right;" id='canvasDiv'></div>
+      </div>      
+   </div>
+   
+</div>
+
 {% endblock %}
 
 {% block script %}

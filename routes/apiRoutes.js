@@ -1,20 +1,25 @@
 /**
  * Module dependencies.
  */
+'use strict';
+
+var config = require('../lib/config')();
+var wrap = require('co-monk');
+var monk = require('monk');
+var db = monk(config.mongoUrl);
+
 var parse = require('co-body');
 var render = require('../lib/render');
 
-// Set up monk
-var monk = require('monk');
-var wrap = require('co-monk');
-var db = monk('localhost:27017/ourZone');
-
-// Wrap monk in generator goodness
 var posts = wrap(db.get('posts'));
 
 // And now... the route definitions
 
-module.exports.incomeAll = function* incomeAll() {
+module.exports = function(app, route) {
+	app.use(route.get('/api/income/all', incomeAll));
+}
+
+function* incomeAll() {
 	var postList = yield posts.find({});
 
 	console.log(1);
