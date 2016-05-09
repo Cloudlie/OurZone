@@ -15,18 +15,22 @@ app.use(serve(__dirname + '/resource'));
 
 // route middleware
 // get request
-var routes = require('./routes.js');
+var routes = require('./routes/routes.js');
 app.use(route.get('/index',routes.index));
 app.use(route.get('/',routes.index));
 app.use(route.get('/income', routes.list));
 app.use(route.get('/income/edit', routes.edit));
 app.use(route.get('/income/:id/edit', routes.edit));
+app.use(route.get('/statistics/moneyStatistics',routes.moneyStatistics));
 //app.use(route.get('/income/:id', routes.show));
 
 //post request
 app.use(route.post('/income/', routes.update));
 app.use(route.post('/income/:id', routes.update));
 app.use(route.get('/income/:id/delete', routes.remove));
+
+var apiRoutes = require('./routes/apiRoutes');
+app.use(route.get('/api/income/all',apiRoutes.incomeAll));
 
 // listen
 app.listen(3000);

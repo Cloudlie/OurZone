@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 var parse = require('co-body');
-var render = require('./lib/render');
+var render = require('../lib/render');
 
 // Set up monk
 var monk = require('monk');
@@ -141,7 +141,7 @@ module.exports.update = function* update(id) {
     yield posts.insert(post);
   }
 
-  this.redirect('/');
+  this.redirect('/income');
 };
 
 /**
@@ -151,5 +151,14 @@ module.exports.remove = function* remove(id) {
   yield posts.remove({
     _id: id
   });
-  this.redirect('/');
+  this.redirect('/income');
 };
+
+/**
+ * show moneyStatistice
+ */
+ module.exports.moneyStatistics=function* moneyStatistics(){
+  this.body = yield render('/statistics/moneyStatistics', {
+      
+    });
+ }
