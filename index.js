@@ -1,11 +1,16 @@
-
 /**
  * Module dependencies.
  */
-var serve = require('koa-static');
-var logger = require('koa-logger');
-var route = require('koa-route');
 var koa = require('koa');
+var path = require('path');
+var fs = require('fs');
+var views = require('co-views');
+var serve = require('koa-static');
+var route = require('koa-route');
+var logger = require('koa-logger');
+var jsonp = require('koa-jsonp');
+var render = require('./lib/render');
+var config = require('./lib/config')();
 var app = module.exports = koa();
 
 // middleware
@@ -13,16 +18,19 @@ var app = module.exports = koa();
 app.use(logger());
 app.use(serve(__dirname + '/resource'));
 
-// route middleware
-var routes = require('./routes.js');
-//app.use(route.get('/index',routes.index))
-app.use(route.get('/', routes.list));
-app.use(route.get('/income/edit', routes.edit));
-app.use(route.get('/income/:id/edit', routes.edit));
-//app.use(route.get('/income/:id', routes.show));
-app.use(route.post('/income/', routes.update));
-app.use(route.post('/income/:id', routes.update));
-app.use(route.get('/income/:id/delete', routes.remove));
+/******************************************************
+ * Bootstrap routes/api
+ * Scan all directory /routes and add to app
+ ******************************************************/
+var routeFile = null;
+var routesPath = path.join(__dirname, 'routes');
+fs.readdirSync(routesPath).forEach(function(file) {
+	if (file[0] === '.') return;
+
+	routeFile = require(routesPath + '/' + file);
+	routeFile(app, route);
+});
+
 
 // listen
 app.listen(3000);
