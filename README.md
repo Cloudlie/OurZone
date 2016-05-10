@@ -1,4 +1,4 @@
-koa - OurZone
+koablog-mongo
 =============
 
-A very simple title tool using mongo via monk
+A very simple blog using mongo via monk
