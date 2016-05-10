@@ -14,6 +14,7 @@ module.exports = function(app, route) {
 	// get repuest
 	app.use(route.get('/account/login', indexLogin));
 	app.use(route.get('/account/reg', indexReg));
+	app.use(route.get('/account/logout', logout));
 
 	// post request
 	app.use(route.post('/account/login', login));
@@ -36,6 +37,11 @@ function* login() {
 	});
 
 	if (user && user.isEnable) {
+		console.log(3);
+		this.session.loginName = user.userName;
+		console.log(4);
+		console.log(this.session.loginName);
+		console.log(user.userName);
 		this.redirect('/');
 	} else {
 		this.body = yield render('/account/login', {
@@ -73,6 +79,15 @@ function* reg() {
 
 		yield users.insert(userInfo);
 
+		this.session.logiNname = userInfo.userName;
 		this.redirect('/');
 	}
+}
+
+// logout
+function* logout() {
+	this.session.loginName = undefined;
+	this.session.loginUser = undefined;
+
+	this.redirect('/account/login');
 }

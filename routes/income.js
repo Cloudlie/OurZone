@@ -14,7 +14,7 @@ var render = require('../lib/render');
 var posts = wrap(db.get('posts'));
 
 // And now... the route definitions
-module.exports = function(app, route) {  
+module.exports = function(app, route) {
     // get request
     app.use(route.get('/index', index));
     app.use(route.get('/', index));
@@ -33,7 +33,8 @@ module.exports = function(app, route) {
 function* index() {
   var postList = yield posts.find({});
   this.body = yield render('index', {
-    posts: postList
+    posts: postList,
+    loginUser: this.session.loginUser
   });
 }
 
