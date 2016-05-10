@@ -16,6 +16,7 @@
     "mongodb": "^1.4.4",
     "monk": "^1.0.1",
     "koa-jsonp": "latest",
+    "koa-session": "^3.3.1",
     "swig": "^1.4.2"
   },
   "devDependencies": {

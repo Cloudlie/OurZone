@@ -12,7 +12,7 @@ var posts = wrap(db.get('posts'));
 
 module.exports = function(app, route) {
   // get request
-  app.use(route.get('/', function *() {
+  app.use(route.get('/expend/list', function *() {
     var books = yield Book.find({});
     this.body = yield render('book/books.html', {'books': books});
   }));

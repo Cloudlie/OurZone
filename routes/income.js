@@ -14,14 +14,15 @@ var render = require('../lib/render');
 var posts = wrap(db.get('posts'));
 
 // And now... the route definitions
-module.exports = function(app, route) {
+module.exports = function(app, route) {  
+    // get request
     app.use(route.get('/index', index));
     app.use(route.get('/', index));
     app.use(route.get('/income', list));
     app.use(route.get('/income/edit', edit));
     app.use(route.get('/income/:id/edit', edit));
 
-
+    // post request
     app.use(route.post('/income/', update));
     app.use(route.post('/income/:id', update));
     app.use(route.get('/income/:id/delete', remove));
@@ -55,7 +56,7 @@ function* list() {
 
   this.body = yield render('income/list', {
     posts: postList,
-    incomeTotal:incomeTotal
+    incomeTotal: incomeTotal
   });
 };
 
@@ -111,11 +112,8 @@ function* edit(id) {
     other: 0
   }
 
-  console.log(defaultValue);
-  console.log(typeof id)
   if (typeof id === "string") {
 
-    console.log(0);
     var post = yield posts.findOne({
       _id: id
     });
@@ -127,7 +125,6 @@ function* edit(id) {
 
   } else {
 
-    console.log(1);
     this.body = yield render('income/edit', {
       types: types,
       defaultValue: defaultValue

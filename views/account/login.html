@@ -1,0 +1,39 @@
+{% extends '../layout.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<form class="form-horizontal" role="form" action="/account/login" method="post">
+   <div class="form-group">
+      <label for="username" class="col-sm-1 control-label">用户名：</label>
+      <div class="col-sm-11">
+            <input type="text" class="form-control" id="username" name="username" value="{{user.username || 'admin'}}" placeholder="请输入用户名">
+      </div>
+   </div>
+   <div class="form-group">
+      <label for="password" class="col-sm-1 control-label">密码：</label>
+      <div class="col-sm-11">
+            <input type="password" class="form-control" id="password" name="password" value="{{user.password || 'admin'}}" placeholder="请输入密码">
+      </div>
+   </div> 
+	{% if !!errmsg %}
+		<div class="alert alert-warning">
+		   <a href="#" class="close" data-dismiss="alert">
+		      &times;
+		   </a>
+		   <strong>警告！</strong>{{ errmsg }}
+		</div>
+	{% endif %}	   
+
+   <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-2">
+         <button type="submit" class="btn btn-default">登录</button>
+      </div>
+      <div class="col-sm-offset-1 col-sm-5">         
+         <a class="btn btn-default" href="/account/reg" role="button">注册</a>
+      </div>
+   </div>
+</form>
+
+{% endblock %}
