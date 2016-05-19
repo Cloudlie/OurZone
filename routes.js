@@ -1,49 +1,34 @@
 /**
  * Module dependencies.
  */
-'use strict';
-
-var config = require('../lib/config')();
-var wrap = require('co-monk');
-var monk = require('monk');
-var db = monk(config.mongoUrl);
-
 var parse = require('co-body');
-var render = require('../lib/render');
+var render = require('./lib/render');
 
+// Set up monk
+var monk = require('monk');
+var wrap = require('co-monk');
+var db = monk('localhost:27017/ourZone');
+
+// Wrap monk in generator goodness
 var posts = wrap(db.get('posts'));
 
 // And now... the route definitions
-module.exports = function(app, route) {
-    // get request
-    app.use(route.get('/index', index));
-    app.use(route.get('/', index));
-    app.use(route.get('/income', list));
-    app.use(route.get('/income/edit', edit));
-    app.use(route.get('/income/:id/edit', edit));
 
-    // post request
-    app.use(route.post('/income/', update));
-    app.use(route.post('/income/:id', update));
-    app.use(route.get('/income/:id/delete', remove));
-  }
-  /**
-   *Post Index
-   */
-function* index() {
+/**
+ *Post Index
+ */
+module.exports.index = function* index() {
   var postList = yield posts.find({});
   this.body = yield render('index', {
-    posts: postList,
-    loginUser: this.session.loginUser
+    posts: postList
   });
 }
 
 /**
  * Post listing.
  */
-function* list() {
+module.exports.list = function* list() {
   var postList = yield posts.find({});
-  var incomeTotal = 0;
   for (var i = postList.length - 1; i >= 0; i--) {
     postList[i].type = parseInt(postList[i].type, 10) === 0 ? "orange" : "cloudlie";
     postList[i].total = parseFloat(postList[i].salary) +
@@ -52,26 +37,24 @@ function* list() {
       parseFloat(postList[i].holidayCosts) +
       parseFloat(postList[i].liCai) +
       parseFloat(postList[i].other);
-    incomeTotal += postList[i].total;
   };
 
   this.body = yield render('income/list', {
-    posts: postList,
-    incomeTotal: incomeTotal
+    posts: postList
   });
 };
 
 /**
  * Show creation form.
  */
-function* add() {
+module.exports.add = function* add() {
   this.body = yield render('income/new');
 };
 
 /**
  * Show post :id.
  */
-function* show(id) {
+module.exports.show = function* show(id) {
   var post = yield posts.findOne({
     _id: id
   });
@@ -84,7 +67,7 @@ function* show(id) {
 /**
  * Create a post.
  */
-function* create() {
+module.exports.create = function* create() {
   var post = yield parse(this);
   post.created_at = new Date;
 
@@ -95,7 +78,7 @@ function* create() {
 /**
  * Show edit form
  */
-function* edit(id) {
+module.exports.edit = function* edit(id) {
   var types = [{
     id: 0,
     name: "orange"
@@ -113,8 +96,11 @@ function* edit(id) {
     other: 0
   }
 
+  console.log(defaultValue);
+  console.log(typeof id)
   if (typeof id === "string") {
 
+    console.log(0);
     var post = yield posts.findOne({
       _id: id
     });
@@ -126,6 +112,7 @@ function* edit(id) {
 
   } else {
 
+    console.log(1);
     this.body = yield render('income/edit', {
       types: types,
       defaultValue: defaultValue
@@ -140,7 +127,7 @@ function* edit(id) {
 /**
  * Update post
  */
-function* update(id) {
+module.exports.update = function* update(id) {
   var post = yield parse(this);
   var date = new Date;
 
@@ -154,15 +141,15 @@ function* update(id) {
     yield posts.insert(post);
   }
 
-  this.redirect('/income');
+  this.redirect('/');
 };
 
 /**
  * Remove post
  */
-function* remove(id) {
+module.exports.remove = function* remove(id) {
   yield posts.remove({
     _id: id
   });
-  this.redirect('/income');
+  this.redirect('/');
 };

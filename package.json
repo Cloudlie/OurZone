@@ -16,7 +16,10 @@
     "mongodb": "^1.4.4",
     "monk": "^1.0.1",
     "koa-jsonp": "latest",
-    "swig": "^1.4.2"
+    "koa-session": "^3.3.1",
+    "swig": "^1.4.2",
+    "cheerio": "0.20.0",
+    "superagent": "latest"
   },
   "devDependencies": {
     "mocha": "^2.2.5",

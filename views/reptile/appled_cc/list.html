@@ -1,0 +1,36 @@
+{% extends '../../layout.html' %}
+
+{% block title %}reptile control{% endblock %}
+
+{% block style %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+	<h1>Hello appled_cc list </h1><a href="/reptile/tool">reptile tool</a>
+	<table class="table table-striped">
+   <caption>收入详情（共 <strong>{{infoes.length}}</strong> 条</caption>
+   <thead>
+      <tr>
+      	 <th>count</th>
+         <th>title</th>
+         <th>author</th>
+         <th>href</th>
+         <th>pubtime</th>
+      </tr>
+   </thead>
+   <tbody>
+    {% for info in infoes %}
+      <tr>
+      	 <td>{{info.count}}</td>
+         <td>{{info.title}}</td>
+         <td>{{info.author}}
+         <td>{{info.href}}</td>
+         <td>{{info.pubtime}}</td>
+      </tr>
+      {% endfor %}
+   </tbody>
+</table>
+{% endblock %}

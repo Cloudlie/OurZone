@@ -1,0 +1,44 @@
+
+{% extends '../../layout.html' %}
+
+{% block title %}reptile control{% endblock %}
+
+{% block style %}
+<style>
+	
+</style>
+{% endblock %}
+
+{% block script %}
+<script>
+	$(function(){
+		$("#getAppled").click(function(){
+			$.getJSON("/reptile/getAppled_cc","",function(data){
+				if (data ){
+					console.log(data);
+				} else {
+					alert("获取数据失败，请稍后重试。")
+				}
+			})
+			//window.location.href="/reptile/getAppled_cc";
+		});
+
+		$("#getcaoliu").click(function(){
+			$.getJSON("/reptile/getCaoliu","",function(data){
+				if (data ){
+					console.log(data);
+				} else {
+					alert("获取数据失败，请稍后重试。")
+				}
+			})
+			//window.location.href="/reptile/getAppled_cc";
+		});
+	});
+</script>
+{% endblock %}
+
+{% block content %}
+	<h1>Hello Reptile control </h1>
+	<button id="getAppled"  class="btn btn-default">start get appled.cc</button>
+	<button id="getcaoliu"  class="btn btn-default">start get cl.cc</button>
+{% endblock %}

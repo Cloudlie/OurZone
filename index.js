@@ -9,14 +9,19 @@ var serve = require('koa-static');
 var route = require('koa-route');
 var logger = require('koa-logger');
 var jsonp = require('koa-jsonp');
+var session = require('koa-session');
 var render = require('./lib/render');
 var config = require('./lib/config')();
+var userlogin = require('./middleware/userlogin');
 var app = module.exports = koa();
 
 // middleware
-
+// for cookie
+app.keys = ['keys'];
 app.use(logger());
 app.use(serve(__dirname + '/resource'));
+app.use(session(app))
+app.use(userlogin)
 
 /******************************************************
  * Bootstrap routes/api
