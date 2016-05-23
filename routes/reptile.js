@@ -17,6 +17,7 @@ var iconv = require('iconv-lite');
 
 var appledcc_catalogs = wrap(db.get('appledcc_catalog'));
 var caolius = wrap(db.get('caoliu'));
+var PageModel = require('../models/common/pageModel.js');
 
 // And now... the route definitions
 module.exports = function(app, route) {
@@ -25,6 +26,8 @@ module.exports = function(app, route) {
 	app.use(route.get('/reptile', appledList));
 	app.use(route.get('/reptile/tool', tool));
 	app.use(route.get('/reptile/appledcc_catalog/list', appledList));
+	app.use(route.get('/reptile/appledcc_catalog/list/:pageIndex', appledList));
+	app.use(route.post('/reptile/appledcc_catalog/list/', appledList));
 
 	app.use(route.get('/reptile/caoliu/list/:name', caoliuList))
 	app.use(route.get('/reptile/getCaoliu', getCaoliu));
@@ -40,18 +43,32 @@ function* tool() {
 /**
  * request list page
  */
-function* appledList() {
-	var infoes = yield appledcc_catalogs.find({}, {
+function* appledList(pageIndex) {
+	var searchKey = yield parse.form(this);
+
+	var query = {
+		title: new RegExp(searchKey.title)
+	};
+
+	var pageModel = new PageModel(pageIndex, 20, yield appledcc_catalogs.count(query));
+
+	var infoes = yield appledcc_catalogs.find(query, {
 		sort: {
 			create_at: 1
-		}
+		},
+		limit: pageModel.pageSize,
+		skip: pageModel.pageSize * (pageModel.pageIndex - 1)
 	});
 	for (var i = 0; i < infoes.length; i++) {
 		infoes[i].count = i + 1;
 	}
 
 	this.body = yield render('reptile/appled_cc/list', {
-		infoes: infoes
+		infoes: infoes,
+		pageModel: pageModel,
+		searchKey: {
+			title: searchKey.title
+		}
 	});
 }
 
@@ -61,7 +78,8 @@ function* appledList() {
 function* caoliuList(title) {
 
 	var infoes = yield caolius.find({
-		title: new RegExp(title),type:4
+		title: new RegExp(title),
+		type: 4
 	}, {
 		sort: {
 			create_at: 1

@@ -1,0 +1,11 @@
+   <ul class="pagination center">
+      <li><a href="/reptile/appledcc_catalog/list/1">首 页</a></li>
+      {% if pageModel.pageIndex != 1 %}
+         <li><a href="/reptile/appledcc_catalog/list/{{pageModel.pageIndex-1}}">&laquo;</a></li>
+      {% endif %}
+      {% if pageModel.pageIndex != pageModel.pageTotal %}
+         <li><a href="/reptile/appledcc_catalog/list/{{pageModel.pageIndex-1+2}}">&raquo;</a></li>
+      {% endif %}
+      <li><a href="/reptile/appledcc_catalog/list/{{pageModel.pageTotal}}">尾 页</a></li>
+      <li><a href="javascript:void(0);">共 {{pageModel.recordTotal}} 条，共 {{pageModel.pageTotal}} 页，当前是 {{pageModel.pageIndex}} 页</a></li>
+   </ul>
